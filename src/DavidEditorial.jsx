@@ -3,6 +3,11 @@ import {
   ArrowUpRight, ArrowDown, Globe, Mail, Linkedin,
   Play, Download, Phone, Award, X, ArrowRight,
 } from "lucide-react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Lenis from "lenis";
+
+gsap.registerPlugin(ScrollTrigger);
 
 /* ════════════════════════════════════════════════════════════════
    DAVID MALDONADO — "EDITORIAL" · v3 (elevated)
@@ -29,7 +34,7 @@ import {
    ════════════════════════════════════════════════════════════════ */
 
 /* // HERO PHOTO — large portrait / 3-4 body shot. "" = placeholder */
-const HERO_PHOTO_URL = "";
+const HERO_PHOTO_URL = "/david.jpg";
 /* // VIDEO — David speaking to camera (mp4/webm URL). "" = placeholder */
 const VIDEO_URL = "";
 /* // optional poster frame for the video */
@@ -38,9 +43,9 @@ const VIDEO_POSTER_URL = "";
    // the track matching the site's active language. */
 const SUBTITLE_URLS = { EN: "", ES: "", ZH: "" };
 /* // GIF — David giving a talk (gif/mp4 URL works in <img> if gif). "" = placeholder */
-const SPEAKING_GIF_URL = "";
+const SPEAKING_GIF_URL = "/gif.JPG";
 /* // CV — link to the hosted PDF */
-const CV_URL = "";
+const CV_URL = "/David_Maldonado_CV.pdf";
 
 const copy = {
   EN: {
@@ -55,6 +60,8 @@ const copy = {
     heroLine3: "",
     heroHl3: "",
     heroSub: "A strategist bridging Latin America and Asia, helping turn distance, language and culture into deals, ventures and working AI.",
+    heroCta: "How am I useful?",
+    heroRoles: "Open to roles in Strategy · Business Development · AI",
     downloadCV: "Download CV",
     scroll: "Scroll",
     marqueeStrip: "Strategy ◇ AI Systems ◇ Markets ◇ Ventures ◇ ",
@@ -142,6 +149,7 @@ const copy = {
     capTitle: "Three ways I'm useful.",
     capHint: "Click a card to open the detail",
     capDetailMeta: "Detail",
+    capOpenCta: "View case",
     capCaseLabel: "Proof in practice",
     capProcessLabel: "How I work",
     capToolsLabel: "Tools & methods",
@@ -231,6 +239,8 @@ const copy = {
     heroLine3: "",
     heroHl3: "",
     heroSub: "Un estratega que conecta Latinoamérica y Asia, ayudando a convertir distancia, idioma y cultura en acuerdos, ventures e IA que funciona.",
+    heroCta: "¿Cómo soy útil?",
+    heroRoles: "Abierto a roles en Estrategia · Business Development · IA",
     downloadCV: "Descargar CV",
     scroll: "Desliza",
     marqueeStrip: "Estrategia ◇ Sistemas de IA ◇ Mercados ◇ Ventures ◇ ",
@@ -318,6 +328,7 @@ const copy = {
     capTitle: "Tres formas en que soy útil.",
     capHint: "Haz click en una tarjeta para ver el detalle",
     capDetailMeta: "Detalle",
+    capOpenCta: "Ver caso",
     capCaseLabel: "Prueba en la práctica",
     capProcessLabel: "Cómo trabajo",
     capToolsLabel: "Herramientas y métodos",
@@ -407,6 +418,8 @@ const copy = {
     heroLine3: "",
     heroHl3: "",
     heroSub: "一位連結拉丁美洲與亞洲的策略家，把距離、語言與文化，轉化為交易、事業與真正能用的 AI。",
+    heroCta: "我能幫上什麼忙？",
+    heroRoles: "尋找策略 · 商業開發 · AI 相關職位",
     downloadCV: "下載履歷",
     scroll: "向下捲動",
     marqueeStrip: "策略 ◇ AI 系統 ◇ 市場 ◇ 創業 ◇ ",
@@ -494,6 +507,7 @@ const copy = {
     capTitle: "三種我能幫上忙的方式。",
     capHint: "點擊卡片查看詳細內容",
     capDetailMeta: "詳細",
+    capOpenCta: "查看案例",
     capCaseLabel: "實戰佐證",
     capProcessLabel: "我的工作方式",
     capToolsLabel: "工具與方法",
@@ -583,16 +597,20 @@ const css = `
 @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@300;400&display=swap');
 
 .ed-root {
-  --paper: #f5f1e8;
-  --paper-deep: #ede8db;
-  --paper-mark: #f6ecc6;
-  --ink: #1b1812;
-  --ink-soft: rgba(27,24,18,0.62);
-  --ink-faint: rgba(27,24,18,0.18);
+  /* deep midnight-blue base, warm cream ink, glowing yellow */
+  --paper: #11131f;
+  --paper-deep: #0c0e18;
+  --paper-mark: #1b1e30;
+  --ink: #f3efe3;
+  --ink-soft: rgba(243,239,227,0.66);
+  --ink-faint: rgba(243,239,227,0.20);
   --mark: #ffe14d;
-  --teal: #2f6f6b;
-  --line: rgba(27,24,18,0.12);
-  --pline: rgba(245,241,232,0.16);
+  --teal: #6fd6c4;
+  --line: rgba(243,239,227,0.14);
+  --pline: rgba(243,239,227,0.16);
+  /* accent slab — an inverted (light) panel for contrast moments */
+  --slab-bg: #f3efe3;
+  --slab-ink: #11131f;
   --serif: 'Fraunces', Georgia, serif;
   --mono: 'JetBrains Mono', monospace;
   font-family: 'Inter', system-ui, sans-serif;
@@ -611,13 +629,13 @@ const css = `
   background-image: linear-gradient(transparent 10%, var(--mark) 10%, var(--mark) 86%, transparent 86%);
   background-repeat: no-repeat;
   background-size: 0% 100%;
-  transition: background-size 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: background-size 0.85s cubic-bezier(0.22, 1, 0.36, 1), color 0.5s ease 0.25s;
   padding: 0 0.12em;
   margin: 0 -0.04em;
   -webkit-box-decoration-break: clone;
   box-decoration-break: clone;
 }
-.mk.on { background-size: 100% 100%; }
+.mk.on { background-size: 100% 100%; color: var(--slab-ink); }
 .ink-w { transition: color 0.35s ease; }
 
 /* ═══════ KINETIC CHARS ═══════ */
@@ -640,6 +658,8 @@ const css = `
 .ed-label::before { content: ''; width: 34px; height: 1px; background: var(--ink); opacity: 0.5; }
 .ed-label.inv { color: rgba(245,241,232,0.6); }
 .ed-label.inv::before { background: var(--paper); }
+.ed-label.slab-label { color: rgba(17,19,31,0.6); }
+.ed-label.slab-label::before { background: var(--slab-ink); opacity: 0.6; }
 
 /* ═══════ REVEALS ═══════ */
 @keyframes edUp { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
@@ -740,7 +760,7 @@ const css = `
   transition: background 0.4s ease, border-color 0.4s ease;
 }
 .ed-nav.scrolled {
-  background: rgba(245,241,232,0.92);
+  background: rgba(17,19,31,0.9);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   border-bottom: 1px solid var(--line);
@@ -774,6 +794,32 @@ const css = `
 }
 .ed-nav .contact-link:hover { color: var(--teal); border-color: var(--teal); }
 @media (max-width: 560px) { .ed-nav .contact-link { display: none; } }
+
+/* ═══════ THE CONNECTING THREAD ═══════ */
+.ed-thread-wrap {
+  position: absolute;
+  top: 0; right: 0;
+  width: 200px; height: 100%;
+  pointer-events: none;
+  z-index: 6;
+  overflow: visible;
+}
+.ed-thread { display: block; overflow: visible; }
+.thread-path {
+  fill: none;
+  stroke: var(--mark);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  opacity: 0.85;
+}
+.thread-dot {
+  fill: var(--mark);
+  stroke: var(--paper);
+  stroke-width: 3;
+}
+@media (max-width: 759px) {
+  .ed-thread-wrap { width: 70px; opacity: 0.55; }
+}
 
 /* ═══════ HIGHLIGHTER PROGRESS BAR ═══════ */
 .ed-progress { position: fixed; top: 0; left: 0; right: 0; height: 5px; z-index: 60; pointer-events: none; }
@@ -840,16 +886,16 @@ const css = `
 .ed-hero-photo::after {
   content: '';
   position: absolute; inset: 0;
-  background: linear-gradient(90deg, var(--paper) 0%, rgba(245,241,232,0.55) 22%, transparent 55%);
+  background: linear-gradient(90deg, var(--paper) 0%, rgba(17,19,31,0.55) 22%, transparent 55%);
   pointer-events: none;
 }
 @media (max-width: 1023px) {
-  .ed-hero-photo { width: 100%; opacity: 0.5; }
-  .ed-hero-photo::after { background: linear-gradient(180deg, rgba(245,241,232,0.75), rgba(245,241,232,0.55)); }
+  .ed-hero-photo { width: 100%; opacity: 0.42; }
+  .ed-hero-photo::after { background: linear-gradient(180deg, rgba(17,19,31,0.78), rgba(17,19,31,0.6)); }
 }
 .ed-hero .grain {
   position: absolute; inset: 0; pointer-events: none;
-  opacity: 0.5; mix-blend-mode: multiply;
+  opacity: 0.4; mix-blend-mode: overlay;
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/><feColorMatrix type='matrix' values='0 0 0 0 0.6  0 0 0 0 0.58  0 0 0 0 0.5  0 0 0 0.5 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
   background-size: 240px 240px;
 }
@@ -866,7 +912,7 @@ const css = `
   text-transform: uppercase;
   color: var(--ink);
   border: 1px solid var(--line);
-  background: rgba(245,241,232,0.7);
+  background: rgba(243,239,227,0.06);
   border-radius: 9999px;
   padding: 8px 16px;
 }
@@ -930,6 +976,44 @@ const css = `
 }
 .ed-cv-btn:hover::before { transform: translateY(0); }
 .ed-cv-btn span, .ed-cv-btn svg { position: relative; z-index: 1; }
+
+/* ROLES TAG — states the target roles up front */
+.ed-roles-tag {
+  display: inline-block;
+  font-family: var(--mono); font-size: 11px; letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--mark);
+  border: 1px solid rgba(255,225,77,0.4);
+  border-radius: 9999px;
+  padding: 8px 16px;
+}
+
+/* PRIMARY HERO CTA — the loud "how am I useful" button */
+.ed-hero-cta {
+  display: inline-flex; align-items: center; gap: 11px;
+  font-family: var(--mono); font-size: clamp(12px, 1.4vw, 14px);
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--slab-ink);
+  background: var(--mark);
+  border-radius: 9999px;
+  padding: 15px 28px;
+  text-decoration: none;
+  position: relative; overflow: hidden;
+  box-shadow: 0 14px 36px -12px rgba(255,225,77,0.5);
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease;
+}
+.ed-hero-cta .mk-bg {
+  position: absolute; inset: 0;
+  background: var(--ink);
+  transform: translateY(101%);
+  transition: transform 0.38s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.ed-hero-cta:hover { transform: translateY(-2px); box-shadow: 0 18px 44px -12px rgba(255,225,77,0.6); }
+.ed-hero-cta:hover .mk-bg { transform: translateY(0); }
+.ed-hero-cta:hover span, .ed-hero-cta:hover svg { color: var(--mark); }
+.ed-hero-cta span, .ed-hero-cta svg { position: relative; z-index: 1; transition: color 0.3s ease; }
+@keyframes ctaBob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(3px); } }
+.ed-hero-cta svg { animation: ctaBob 1.8s ease-in-out infinite; }
 
 /* ═══════ SPINNING BADGE — open to work ═══════ */
 .ed-badge-wrap {
@@ -1004,8 +1088,8 @@ const css = `
 /* ═══════ INK SLAB — the statement as a floating dark sheet ═══════ */
 .ed-slab-wrap { padding: clamp(40px, 7vh, 90px) clamp(10px, 2vw, 28px); }
 .ed-slab {
-  background: var(--ink);
-  color: var(--paper);
+  background: var(--mark);
+  color: var(--slab-ink);
   border-radius: clamp(24px, 4vw, 56px);
   padding: clamp(80px, 13vh, 170px) clamp(24px, 5vw, 72px);
   position: relative;
@@ -1013,8 +1097,8 @@ const css = `
 }
 .ed-slab .slab-grain {
   position: absolute; inset: 0; pointer-events: none;
-  opacity: 0.35; mix-blend-mode: soft-light;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/><feColorMatrix type='matrix' values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 1 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  opacity: 0.20; mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/><feColorMatrix type='matrix' values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0.1  0 0 0 1 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
   background-size: 240px 240px;
 }
 .ed-statement {
@@ -1223,7 +1307,8 @@ const css = `
   will-change: transform;
   overflow: hidden;
 }
-.ed-stack-card.dark { background: var(--ink); color: var(--paper); border-color: rgba(245,241,232,0.12); }
+.ed-stack-card.dark { background: var(--slab-bg); color: var(--slab-ink); border-color: rgba(17,19,31,0.12); }
+.ed-stack-card.dark .n { background: var(--slab-ink); color: var(--mark); }
 .ed-stack-card.tint { background: var(--paper-mark); }
 .ed-stack-card .n {
   font-family: var(--mono); font-size: 12px; letter-spacing: 0.15em;
@@ -1247,7 +1332,7 @@ const css = `
   max-width: 620px;
   margin-top: 20px;
 }
-.ed-stack-card.dark p { color: rgba(245,241,232,0.65); }
+.ed-stack-card.dark p { color: rgba(17,19,31,0.66); }
 .ed-stack-card .ghost {
   position: absolute;
   right: clamp(10px, 3vw, 40px); bottom: -0.18em;
@@ -1267,29 +1352,35 @@ const css = `
   white-space: nowrap;
   line-height: 1.2;
 }
-.ed-stack-card.dark .ed-tag { color: rgba(245,241,232,0.85); border-color: rgba(245,241,232,0.3); }
+.ed-stack-card.dark .ed-tag { color: rgba(17,19,31,0.75); border-color: rgba(17,19,31,0.25); }
 
 /* clickable stacking card affordance */
 .ed-stack-card { cursor: pointer; }
 .ed-stack-card .open-hint {
   position: absolute;
   top: clamp(28px, 4.5vw, 64px); right: clamp(28px, 4.5vw, 64px);
-  display: inline-flex; align-items: center; gap: 8px;
-  font-family: var(--mono); font-size: 10px; letter-spacing: 0.18em;
+  display: inline-flex; align-items: center; gap: 9px;
+  font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--ink-soft);
+  color: var(--ink);
+  background: var(--mark);
+  padding: 9px 9px 9px 18px;
+  border-radius: 9999px;
   z-index: 2;
-  transition: gap 0.3s ease, color 0.3s ease;
+  box-shadow: 0 6px 18px -8px rgba(27,24,18,0.4);
+  transition: gap 0.3s ease, transform 0.3s cubic-bezier(0.22,1,0.36,1), box-shadow 0.3s ease;
 }
-.ed-stack-card.dark .open-hint { color: rgba(245,241,232,0.55); }
+.ed-stack-card.dark .open-hint { color: var(--ink); background: var(--mark); }
 .ed-stack-card .open-hint .ic {
-  width: 34px; height: 34px; border-radius: 50%;
-  border: 1px solid currentColor;
+  width: 30px; height: 30px; border-radius: 50%;
+  background: var(--ink); color: var(--paper);
   display: flex; align-items: center; justify-content: center;
-  transition: transform 0.35s cubic-bezier(0.22,1,0.36,1), background 0.3s ease, color 0.3s ease;
+  transition: transform 0.35s cubic-bezier(0.22,1,0.36,1);
 }
-.ed-stack-card:hover .open-hint { gap: 12px; }
-.ed-stack-card:hover .open-hint .ic { transform: rotate(45deg); background: var(--mark); color: var(--ink); border-color: var(--mark); }
+.ed-stack-card:hover { transform: translateY(-4px); box-shadow: 0 -14px 50px -24px rgba(27,24,18,0.5), 0 24px 50px -28px rgba(27,24,18,0.45); }
+.ed-stack-card:hover .open-hint { gap: 13px; transform: scale(1.04); }
+.ed-stack-card:hover .open-hint .ic { transform: translateX(3px); }
+.ed-stack-card:active { transform: translateY(-1px); }
 
 /* ═══════ DETAIL DRAWER ═══════ */
 .ed-drawer-overlay {
@@ -1356,7 +1447,9 @@ const css = `
 }
 .ed-drawer .d-section-label::before { content: ''; width: 26px; height: 1px; background: var(--ink); opacity: 0.5; }
 .ed-case {
-  background: var(--ink); color: var(--paper);
+  background: var(--paper-mark); color: var(--ink);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--mark);
   border-radius: 18px;
   padding: clamp(22px, 3vw, 32px);
   position: relative; overflow: hidden;
@@ -1367,7 +1460,7 @@ const css = `
   color: var(--mark);
 }
 .ed-case .ct { font-family: var(--serif); font-size: clamp(18px, 2.4vw, 22px); margin-top: 12px; }
-.ed-case .cb { font-size: 14px; line-height: 1.7; color: rgba(245,241,232,0.7); margin-top: 12px; }
+.ed-case .cb { font-size: 14px; line-height: 1.7; color: var(--ink-soft); margin-top: 12px; }
 .ed-step {
   display: grid; grid-template-columns: auto 1fr; gap: 4px 16px;
   padding: 16px 0; border-bottom: 1px solid var(--line);
@@ -1517,13 +1610,15 @@ const css = `
 
 /* ═══════ MEGA FOOTER — the giant name ═══════ */
 .ed-mega {
-  background: var(--ink);
-  color: var(--paper);
+  background: var(--paper-deep);
+  color: var(--ink);
   margin: 0 clamp(10px, 2vw, 28px);
   border-radius: clamp(24px, 4vw, 56px) clamp(24px, 4vw, 56px) 0 0;
   padding: clamp(70px, 11vh, 130px) clamp(20px, 5vw, 64px) 0;
   position: relative;
   overflow: hidden;
+  border: 1px solid var(--line);
+  border-bottom: none;
 }
 .ed-mega .name {
   font-family: var(--serif);
@@ -1535,31 +1630,31 @@ const css = `
 }
 .ed-mega .name .ghosted {
   color: transparent;
-  -webkit-text-stroke: 1px rgba(245,241,232,0.45);
+  -webkit-text-stroke: 1px var(--mark);
 }
 .ed-mega .tagrow {
   font-family: var(--mono);
   font-size: 10px; letter-spacing: 0.24em;
   text-transform: uppercase;
-  color: rgba(245,241,232,0.45);
+  color: var(--ink-soft);
   margin-top: 28px;
 }
 .ed-mega-foot {
   display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap;
   padding: 26px 0;
   margin-top: clamp(36px, 6vh, 70px);
-  border-top: 1px solid var(--pline);
+  border-top: 1px solid var(--line);
   font-family: var(--mono); font-size: 10px; letter-spacing: 0.16em;
-  color: rgba(245,241,232,0.4); text-transform: uppercase;
+  color: var(--ink-soft); text-transform: uppercase;
 }
 
-.ed-main { opacity: 0; transition: opacity 0.6s ease; }
+.ed-main { opacity: 0; transition: opacity 0.6s ease; position: relative; }
 .ed-main.visible { opacity: 1; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
   .rv, .lrise, .ed-lang2, .ch { opacity: 1 !important; transform: none !important; }
-  .mk { background-size: 100% 100% !important; }
+  .mk { background-size: 100% 100% !important; color: var(--slab-ink) !important; }
   .ink-w { color: inherit !important; }
   .ed-circle-svg path { stroke-dashoffset: 0 !important; }
   .ed-lang-row .bar .fill { transition: none; }
@@ -1788,6 +1883,8 @@ export default function DavidEditorial() {
 
   /* refs driven by the single rAF loop (no per-frame React renders) */
   const progressFillRef = useRef(null);
+  const threadRef = useRef(null);
+  const threadDotRef = useRef(null);
   const photoRef = useRef(null);
   const stripTrkRef = useRef(null);
   const stackRefs = useRef([]);
@@ -1826,6 +1923,12 @@ export default function DavidEditorial() {
     }, 1050);
   }, []);
 
+  /* smooth-scroll to a section by id (works with native + Lenis) */
+  const scrollToId = useCallback((id) => {
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+  }, []);
+
   /* low-frequency scroll state (booleans only re-render on change) */
   useEffect(() => {
     const onScroll = () => {
@@ -1836,6 +1939,102 @@ export default function DavidEditorial() {
     onScroll();
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  /* ───────── LENIS SMOOTH SCROLL + GSAP sync ───────── */
+  useEffect(() => {
+    if (!entered) return;
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduced) return;
+
+    const lenis = new Lenis({
+      duration: 1.15,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smoothWheel: true,
+      touchMultiplier: 1.6,
+    });
+
+    lenis.on("scroll", ScrollTrigger.update);
+    const raf = (time) => lenis.raf(time * 1000);
+    gsap.ticker.add(raf);
+    gsap.ticker.lagSmoothing(0);
+
+    return () => {
+      gsap.ticker.remove(raf);
+      lenis.destroy();
+    };
+  }, [entered]);
+
+  /* ───────── THE CONNECTING THREAD — draws as you scroll ───────── */
+  useEffect(() => {
+    if (!entered) return;
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const path = threadRef.current;
+    const svg = path && path.ownerSVGElement;
+    if (!path || !svg) return;
+
+    let st = null;
+
+    const build = () => {
+      const h = document.documentElement.scrollHeight;
+      const isMobile = window.innerWidth < 760;
+      // thread weaves in the right margin; cx measured within the 200px band
+      const cx = isMobile ? 150 : 128;         // px (band is 200 wide, anchored right)
+      const amp = isMobile ? 14 : 44;          // how far it swings
+      svg.setAttribute("viewBox", `0 0 200 ${h}`);
+      svg.setAttribute("width", "200");
+      svg.setAttribute("height", `${h}`);
+
+      // weave a smooth sine-like path down the full height
+      const seg = isMobile ? 420 : 540;        // vertical distance per swing
+      let d = `M ${cx} 0`;
+      let y = 0;
+      let dir = 1;
+      while (y < h) {
+        const ny = Math.min(y + seg, h);
+        const midY = (y + ny) / 2;
+        const ctrlX = cx + dir * amp;
+        d += ` C ${ctrlX} ${midY}, ${ctrlX} ${midY}, ${cx} ${ny}`;
+        y = ny;
+        dir *= -1;
+      }
+      path.setAttribute("d", d);
+
+      const len = path.getTotalLength();
+      path.style.strokeDasharray = `${len}`;
+      path.style.strokeDashoffset = reduced ? "0" : `${len}`;
+
+      if (st) st.kill();
+      if (reduced) return;
+
+      st = ScrollTrigger.create({
+        trigger: document.documentElement,
+        start: "top top",
+        end: "bottom bottom",
+        scrub: 1.1,
+        onUpdate: (self) => {
+          const drawn = len * self.progress;
+          path.style.strokeDashoffset = `${len - drawn}`;
+          if (threadDotRef.current) {
+            const pt = path.getPointAtLength(drawn);
+            threadDotRef.current.setAttribute("cx", pt.x);
+            threadDotRef.current.setAttribute("cy", pt.y);
+          }
+        },
+      });
+    };
+
+    build();
+    const onResize = () => { ScrollTrigger.refresh(); build(); };
+    window.addEventListener("resize", onResize);
+    // rebuild once more after fonts/images settle
+    const t = setTimeout(build, 600);
+
+    return () => {
+      window.removeEventListener("resize", onResize);
+      clearTimeout(t);
+      if (st) st.kill();
+    };
+  }, [entered]);
 
   /* THE ENGINE — one rAF loop: progress bar, parallax, velocity skew,
      and sticky-stack card scaling, all through refs */
@@ -1886,9 +2085,7 @@ export default function DavidEditorial() {
   const [trajRef, trajIn] = useInView(0.08);
   const [eduRef, eduIn] = useInView(0.15);
   const [statsRef, statsIn] = useInView(0.2);
-  const [persRef, persIn] = useInView(0.4);
   const [capRef, capIn] = useInView(0.1);
-  const [featRef, featIn] = useInView(0.18);
   const [proofRef, proofIn] = useInView(0.12);
   const [contactRef, contactIn] = useInView(0.3);
   const [megaRef, megaIn] = useInView(0.3);
@@ -1975,6 +2172,14 @@ export default function DavidEditorial() {
       )}
 
       <div className={`ed-main ${entered ? "visible" : ""}`}>
+        {/* ═══ THE CONNECTING THREAD — a stitched line drawn as you scroll ═══ */}
+        <div className="ed-thread-wrap" aria-hidden="true">
+          <svg className="ed-thread" preserveAspectRatio="none">
+            <path ref={threadRef} className="thread-path" />
+            <circle ref={threadDotRef} className="thread-dot" cx="-10" cy="-10" r="5.5" />
+          </svg>
+        </div>
+
         {/* ═══ HERO ═══ */}
         <section className="ed-hero">
           <div className="ed-hero-photo" ref={photoRef}>
@@ -2043,9 +2248,26 @@ export default function DavidEditorial() {
             </p>
 
             <div
-              className={`flex items-center gap-4 flex-wrap rv ${entered ? "in" : ""}`}
-              style={{ marginTop: 26, animationDelay: "1400ms" }}
+              className={`rv ${entered ? "in" : ""}`}
+              style={{ marginTop: 14, animationDelay: "1350ms" }}
             >
+              <span className="ed-roles-tag">{t.heroRoles}</span>
+            </div>
+
+            <div
+              className={`flex items-center gap-4 flex-wrap rv ${entered ? "in" : ""}`}
+              style={{ marginTop: 28, animationDelay: "1480ms" }}
+            >
+              {/* PRIMARY CTA — scrolls to the capabilities ("how am I useful") */}
+              <a
+                className="ed-hero-cta"
+                href="#capabilities"
+                onClick={(e) => { e.preventDefault(); scrollToId("capabilities"); }}
+              >
+                <span className="mk-bg" />
+                <span>{t.heroCta}</span>
+                <ArrowDown strokeWidth={1.5} style={{ width: 16, height: 16 }} />
+              </a>
               {/* // CV BUTTON — set CV_URL above to the hosted PDF */}
               <a className="ed-cv-btn" href={CV_URL || "#"} target={CV_URL ? "_blank" : undefined} rel="noreferrer">
                 <Download strokeWidth={1.5} style={{ width: 14, height: 14 }} />
@@ -2150,16 +2372,16 @@ export default function DavidEditorial() {
           </div>
         </section>
 
-        {/* ═══ INK SLAB — the statement, words turning to paper ═══ */}
+        {/* ═══ STATEMENT SLAB — bold yellow, words turning to ink ═══ */}
         <div className="ed-slab-wrap">
           <section className="ed-slab">
             <div className="slab-grain" />
-            <span className="ed-label inv">{t.statementLabel}</span>
+            <span className="ed-label slab-label">{t.statementLabel}</span>
             <InkReveal
               text={t.statement}
               lang={lang}
-              activeColor="var(--paper)"
-              faintColor="rgba(245,241,232,0.18)"
+              activeColor="var(--slab-ink)"
+              faintColor="rgba(17,19,31,0.22)"
               className="ed-statement"
               style={{ marginTop: 36 }}
             />
@@ -2273,26 +2495,8 @@ export default function DavidEditorial() {
           </div>
         </section>
 
-        {/* ═══ OFF THE CLOCK — a brief human note ═══ */}
-        <section className="ed-section ed-rule">
-          <div ref={persRef} style={{ maxWidth: 1000 }}>
-            <span className="ed-label">{t.personalLabel}</span>
-            <div
-              className="ed-serif"
-              style={{ fontSize: "clamp(24px, 3.6vw, 44px)", lineHeight: 1.4, marginTop: 28, letterSpacing: "-0.01em" }}
-            >
-              <InkReveal
-                text={t.personalText}
-                lang={lang}
-                activeColor="var(--ink)"
-                faintColor="var(--ink-faint)"
-              />
-            </div>
-          </div>
-        </section>
-
         {/* ═══ CAPABILITIES — sticky stacking cards ═══ */}
-        <section className="ed-section ed-rule" style={{ paddingBottom: "clamp(40px, 6vh, 80px)" }}>
+        <section id="capabilities" className="ed-section ed-rule" style={{ paddingBottom: "clamp(40px, 6vh, 80px)", scrollMarginTop: "80px" }}>
           <div ref={capRef}>
             <span className="ed-label">{t.capLabel}</span>
             <h2 className="ed-serif" style={{ fontSize: "clamp(34px, 5vw, 64px)", marginTop: 20, lineHeight: 1.08 }}>
@@ -2316,7 +2520,7 @@ export default function DavidEditorial() {
                   aria-label={`${c.title} — ${t.capDetailMeta}`}
                 >
                   <span className="open-hint">
-                    {t.capDetailMeta}
+                    {t.capOpenCta}
                     <span className="ic"><ArrowUpRight strokeWidth={1.5} style={{ width: 16, height: 16 }} /></span>
                   </span>
                   <div>
@@ -2332,47 +2536,6 @@ export default function DavidEditorial() {
                   <div className="ghost">{c.n}</div>
                 </div>
               ))}
-            </div>
-          </div>
-        </section>
-
-        {/* ═══ FEATURED PROJECT — HeyNona ═══ */}
-        <section className="ed-section ed-rule">
-          <div ref={featRef}>
-            <span className="ed-label">{t.featuredLabel}</span>
-            <div className="ed-feat-grid" style={{ marginTop: 8 }}>
-              <div>
-                <h2 className="ed-serif" style={{ fontSize: "clamp(48px, 7.5vw, 100px)", lineHeight: 1, marginTop: 18 }}>
-                  <RisingLines lines={[t.featured.title]} start={featIn} baseDelay={100} />
-                </h2>
-                <p
-                  className="ed-serif"
-                  style={{ fontSize: "clamp(19px, 2.4vw, 26px)", fontStyle: "italic", marginTop: 20, lineHeight: 1.5, maxWidth: 580 }}
-                >
-                  <Mark on={featIn} delay={550}>{t.featured.tagline}</Mark>
-                </p>
-                <p
-                  className={`rv ${featIn ? "in" : ""}`}
-                  style={{ fontSize: 16, lineHeight: 1.75, color: "var(--ink-soft)", marginTop: 22, maxWidth: 580, animationDelay: "350ms" }}
-                >
-                  {t.featured.body}
-                </p>
-                <div className={`flex flex-wrap gap-2 rv ${featIn ? "in" : ""}`} style={{ marginTop: 20, animationDelay: "500ms" }}>
-                  {t.featured.tags.map((tag) => (
-                    <span key={tag} className="ed-tag">{tag}</span>
-                  ))}
-                </div>
-              </div>
-              {/* // PROJECT IMAGE SLOT — replace placeholder with a product
-                  // shot / demo GIF of HeyNona when ready */}
-              <div className={`rv ${featIn ? "in" : ""}`} style={{ animationDelay: "420ms" }}>
-                <div className="ed-gif-card" style={{ transform: "rotate(1.4deg)" }}>
-                  <div className="tape" style={{ left: "24%", transform: "rotate(4deg)" }} />
-                  <div className="frame">
-                    <div className="ph">{t.featured.note}</div>
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </section>
