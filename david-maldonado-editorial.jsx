@@ -74,6 +74,8 @@ const copy = {
     formSuccess: "Thank you. I'll be in touch soon.",
     formError: "Something went wrong. You can also email me directly.",
     formClose: "Close",
+    formRe: "Regarding:",
+    formRePrefill: "Hi David, I'm reaching out about",
     availability: "Available, graduating June 2026",
     heroKicker: "GUATEMALA → TAIWAN → ANYWHERE",
     heroLine1: "Strategy and",
@@ -265,6 +267,8 @@ const copy = {
     formSuccess: "Gracias. Te contactaré pronto.",
     formError: "Algo salió mal. También puedes escribirme directo por correo.",
     formClose: "Cerrar",
+    formRe: "Sobre:",
+    formRePrefill: "Hola David, te escribo sobre",
     availability: "Disponible, graduación junio 2026",
     heroKicker: "GUATEMALA → TAIWÁN → EL MUNDO",
     heroLine1: "Estrategia y",
@@ -456,6 +460,8 @@ const copy = {
     formSuccess: "謝謝你，我會盡快與你聯繫。",
     formError: "發生錯誤，你也可以直接寄信給我。",
     formClose: "關閉",
+    formRe: "關於：",
+    formRePrefill: "David 你好，我想聊聊關於",
     availability: "求職中，2026 年 6 月畢業",
     heroKicker: "瓜地馬拉 → 台灣 → 世界",
     heroLine1: "策略與創業，",
@@ -1281,9 +1287,30 @@ html, body, #root {
   color: var(--ink-soft); margin-top: 16px;
 }
 @media (max-width: 819px) {
-  .ed-stop { grid-template-columns: 1fr; text-align: center; }
-  .ed-stop-org { justify-content: center; }
-  .ed-stop-desc { max-width: 90%; margin-left: auto; margin-right: auto; }
+  .ed-journey { padding-left: 8px; }
+  .ed-stop {
+    grid-template-columns: 56px 1fr;
+    text-align: left;
+    align-items: start;
+    gap: 18px;
+    margin-bottom: clamp(44px, 8vh, 80px);
+  }
+  /* art marker sits small on the left rail */
+  .ed-stop-art {
+    width: 56px; height: 56px;
+    margin: 0;
+  }
+  .ed-stop-num { font-size: 26px; }
+  .ed-stop-art img { width: 60%; height: 60%; }
+  /* dot hugs the bottom of each marker, on the rail */
+  .ed-stop-dot { bottom: -6px; top: auto; left: 50%; right: auto; transform: translateX(-50%); }
+  /* text always to the right, never centered over the line */
+  .ed-stop.right .ed-stop-art { order: 0; }
+  .ed-stop.right .ed-stop-card { order: 0; text-align: left; }
+  .ed-stop.right .ed-stop-org { justify-content: flex-start; }
+  .ed-stop-org { justify-content: flex-start; }
+  .ed-stop-desc { max-width: 100%; margin: 16px 0 0; }
+  .ed-stop-chapter { font-size: clamp(24px, 7vw, 34px); }
 }
 
 /* ═══════ EDUCATION + CERTS ═══════ */
@@ -1418,9 +1445,10 @@ html, body, #root {
 }
 .ed-stat .num .sx { color: var(--teal); font-style: italic; }
 .ed-stat .lbl {
-  font-family: var(--mono); font-size: 10px;
-  letter-spacing: 0.22em; text-transform: uppercase;
-  color: var(--ink-soft); margin-top: 12px;
+  font-family: var(--mono); font-size: 13px;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--ink-soft); margin-top: 14px;
+  line-height: 1.4;
 }
 .ed-langs {
   display: grid;
@@ -1519,9 +1547,10 @@ html, body, #root {
 .ed-stack-card.tint { background: var(--paper-mark); }
 .ed-stack-card .n {
   font-family: var(--mono); font-size: 12px; letter-spacing: 0.15em;
-  color: var(--slab-ink);
+  color: #11131f;
+  font-weight: 500;
   background: var(--mark);
-  padding: 4px 10px;
+  padding: 5px 11px;
   display: inline-block;
   width: fit-content;
 }
@@ -1583,9 +1612,11 @@ html, body, #root {
   display: flex; align-items: center; justify-content: center;
   transition: transform 0.35s cubic-bezier(0.22,1,0.36,1);
 }
+@keyframes icBob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(4px); } }
+.ed-stack-card:not(.is-open) .open-hint .ic { animation: icBob 1.6s ease-in-out infinite; }
 .ed-card-head:hover .open-hint { gap: 13px; transform: scale(1.05); }
-.ed-card-head:hover .open-hint .ic { transform: translateY(3px); }
-.ed-stack-card .open-hint.active .ic { transform: rotate(0deg); }
+.ed-card-head:hover .open-hint .ic { animation: none; transform: translateY(3px); }
+.ed-stack-card .open-hint.active .ic { animation: none; transform: rotate(0deg); }
 .ed-stack-card:not(.is-open):hover { box-shadow: 0 -14px 50px -24px rgba(0,0,0,0.5), 0 24px 50px -28px rgba(0,0,0,0.5); }
 @keyframes hintPulse {
   0%, 100% { box-shadow: 0 6px 18px -8px rgba(255,225,77,0.5), 0 0 0 0 rgba(255,225,77,0.4); }
@@ -1635,6 +1666,22 @@ html, body, #root {
   margin-top: 14px; max-width: 38em;
 }
 .ed-form { display: flex; flex-direction: column; gap: 14px; margin-top: 28px; }
+.ed-form-context {
+  display: inline-flex; align-items: center; gap: 9px;
+  font-family: var(--mono); font-size: 12px; letter-spacing: 0.06em;
+  color: var(--ink-soft);
+  margin-top: 18px;
+  padding: 9px 15px;
+  border: 1px solid rgba(255,225,77,0.3);
+  border-radius: 9999px;
+  width: fit-content;
+}
+.ed-form-context strong { color: var(--mark); font-weight: 500; }
+.ed-form-context .ec-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--mark);
+  box-shadow: 0 0 8px rgba(255,225,77,0.8);
+}
 .ed-input {
   font-family: var(--sans, 'Inter', sans-serif); font-size: 15px;
   color: var(--ink);
@@ -1778,17 +1825,18 @@ html, body, #root {
   border-top: 1px solid var(--line);
 }
 .ed-card-panel-inner .d-cta .q { font-family: var(--serif); font-style: italic; font-size: clamp(17px, 2.2vw, 22px); }
-.ed-card-panel-inner .d-cta a {
+.ed-card-panel-inner .d-cta a, .ed-card-panel-inner .d-cta button {
   display: inline-flex; align-items: center; gap: 10px;
   font-family: var(--mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase;
   color: var(--slab-ink); background: var(--mark);
+  border: none; cursor: pointer;
   border-radius: 9999px; padding: 13px 24px; text-decoration: none;
   position: relative; overflow: hidden;
 }
-.ed-card-panel-inner .d-cta a .mk-bg { position: absolute; inset: 0; background: var(--ink); transform: translateY(101%); transition: transform 0.4s cubic-bezier(0.22,1,0.36,1); }
-.ed-card-panel-inner .d-cta a:hover .mk-bg { transform: translateY(0); }
-.ed-card-panel-inner .d-cta a span, .ed-card-panel-inner .d-cta a svg { position: relative; z-index: 1; transition: color 0.3s ease; }
-.ed-card-panel-inner .d-cta a:hover span, .ed-card-panel-inner .d-cta a:hover svg { color: var(--mark); }
+.ed-card-panel-inner .d-cta a .mk-bg, .ed-card-panel-inner .d-cta button .mk-bg { position: absolute; inset: 0; background: var(--ink); transform: translateY(101%); transition: transform 0.4s cubic-bezier(0.22,1,0.36,1); }
+.ed-card-panel-inner .d-cta a:hover .mk-bg, .ed-card-panel-inner .d-cta button:hover .mk-bg { transform: translateY(0); }
+.ed-card-panel-inner .d-cta a span, .ed-card-panel-inner .d-cta a svg, .ed-card-panel-inner .d-cta button span, .ed-card-panel-inner .d-cta button svg { position: relative; z-index: 1; transition: color 0.3s ease; }
+.ed-card-panel-inner .d-cta a:hover span, .ed-card-panel-inner .d-cta a:hover svg, .ed-card-panel-inner .d-cta button:hover span, .ed-card-panel-inner .d-cta button:hover svg { color: var(--mark); }
 
 /* ═══════ FEATURED PROJECT ═══════ */
 .ed-feat-grid {
@@ -2161,6 +2209,7 @@ export default function DavidEditorial() {
   const [showFloat, setShowFloat] = useState(false);
   const [openCard, setOpenCard] = useState(-1);
   const [contactOpen, setContactOpen] = useState(false);
+  const [contactContext, setContactContext] = useState("");
   const [formStatus, setFormStatus] = useState("idle"); // idle | sending | success | error
 
   const t = copy[lang];
@@ -2573,7 +2622,7 @@ export default function DavidEditorial() {
                 {l === "ZH" ? "中文" : l}
               </button>
             ))}
-            <button className="contact-link" onClick={() => { setContactOpen(true); setFormStatus("idle"); }}>
+            <button className="contact-link" onClick={() => { setContactContext(""); setContactOpen(true); setFormStatus("idle"); }}>
               {t.navContact}
             </button>
           </div>
@@ -3028,11 +3077,18 @@ export default function DavidEditorial() {
 
                       <div className="d-cta">
                         <span className="q">{t.capCtaLabel}</span>
-                        <a href="mailto:davidm.mg13@nycu.edu.tw">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setContactContext(c.title);
+                            setFormStatus("idle");
+                            setContactOpen(true);
+                          }}
+                        >
                           <span className="mk-bg" />
                           <span>{t.cta}</span>
                           <ArrowRight strokeWidth={1.5} style={{ width: 15, height: 15 }} />
-                        </a>
+                        </button>
                       </div>
                     </div>
                   </div>
@@ -3188,10 +3244,25 @@ export default function DavidEditorial() {
             <span className="ed-label">{t.navContact}</span>
             <h2 className="ed-modal-title ed-serif">{t.formTitle}</h2>
             <p className="ed-modal-sub">{t.formSubtitle}</p>
+            {contactContext && (
+              <div className="ed-form-context">
+                <span className="ec-dot" />
+                {t.formRe} <strong>{contactContext}</strong>
+              </div>
+            )}
             <form className="ed-form" onSubmit={handleContactSubmit}>
+              {contactContext && <input type="hidden" name="regarding" value={contactContext} />}
               <input className="ed-input" type="text" name="name" placeholder={t.formName} required />
               <input className="ed-input" type="email" name="email" placeholder={t.formEmail} required />
-              <textarea className="ed-input ed-textarea" name="message" placeholder={t.formMessage} rows={4} required />
+              <textarea
+                className="ed-input ed-textarea"
+                name="message"
+                placeholder={t.formMessage}
+                rows={4}
+                required
+                defaultValue={contactContext ? `${t.formRePrefill} "${contactContext}".\n\n` : ""}
+                key={contactContext}
+              />
               <button className="ed-form-send" type="submit" disabled={formStatus === "sending"}>
                 <span className="mk-bg" />
                 <span>{formStatus === "sending" ? t.formSending : t.formSend}</span>
