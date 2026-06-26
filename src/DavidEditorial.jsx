@@ -1316,6 +1316,16 @@ html, body, #root {
   will-change: transform;
   overflow: hidden;
 }
+.ed-stack-card::before {
+  content: '';
+  position: absolute; inset: 0;
+  pointer-events: none;
+  opacity: 0.5; mix-blend-mode: screen;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/><feColorMatrix type='matrix' values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.5 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  background-size: 220px 220px;
+  z-index: 0;
+}
+.ed-stack-card > * { position: relative; z-index: 1; }
 .ed-stack-card.dark {
   background: linear-gradient(155deg, #1a1d2e 0%, #15182629 60%, var(--paper-deep) 100%);
   color: var(--ink);
@@ -1325,7 +1335,7 @@ html, body, #root {
 .ed-stack-card.tint { background: var(--paper-mark); }
 .ed-stack-card .n {
   font-family: var(--mono); font-size: 12px; letter-spacing: 0.15em;
-  color: var(--ink);
+  color: var(--slab-ink);
   background: var(--mark);
   padding: 4px 10px;
   display: inline-block;
