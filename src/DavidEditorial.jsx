@@ -135,7 +135,7 @@ const copy = {
       },
       {
         chapter: "Crossing the world", years: "2024–26", role: "Global MBA · Technology Management", org: "NYCU Taiwan",
-        desc: "I crossed the Pacific on a full scholarship to study where the future is being built. Now I teach what I once learned, mentoring student teams as a Teaching Assistant.",
+        desc: "I crossed the Pacific to study where the future is being built. Now I teach what I once learned, mentoring student teams as a Teaching Assistant.",
       },
       {
         chapter: "Bridging two worlds", years: "2026–Now", role: "Procurement Research Intern", org: "DRISA · Remote, Taiwan / SEA",
@@ -144,7 +144,7 @@ const copy = {
     ],
     eduLabel: "Education",
     education: [
-      { school: "National Yang Ming Chiao Tung University", degree: "Global MBA — Technology Management Specialization", year: "2024–26", note: "Full scholarship · TA, Business Model & Value Proposition" },
+      { school: "National Yang Ming Chiao Tung University", degree: "Global MBA — Technology Management Specialization", year: "2024–26", note: "TA, Business Model & Value Proposition" },
       { school: "Inter-American Development Bank (IDB)", degree: "Master's in Professional Project Management", year: "2021", note: "Guatemala" },
       { school: "Universidad Francisco Marroquín", degree: "B.A. in Entrepreneurship", year: "2020", note: "Guatemala" },
     ],
@@ -328,7 +328,7 @@ const copy = {
       },
       {
         chapter: "Cruzar el mundo", years: "2024–26", role: "Global MBA · Technology Management", org: "NYCU Taiwán",
-        desc: "Crucé el Pacífico con beca completa para estudiar donde se construye el futuro. Hoy enseño lo que un día aprendí, mentoreando equipos de estudiantes como Teaching Assistant.",
+        desc: "Crucé el Pacífico para estudiar donde se construye el futuro. Hoy enseño lo que un día aprendí, mentoreando equipos de estudiantes como Teaching Assistant.",
       },
       {
         chapter: "Ser puente entre dos mundos", years: "2026–Hoy", role: "Procurement Research Intern", org: "DRISA · Remoto, Taiwán / SEA",
@@ -337,7 +337,7 @@ const copy = {
     ],
     eduLabel: "Formación",
     education: [
-      { school: "National Yang Ming Chiao Tung University", degree: "Global MBA — Especialización en Technology Management", year: "2024–26", note: "Beca completa · TA, Business Model & Value Proposition" },
+      { school: "National Yang Ming Chiao Tung University", degree: "Global MBA — Especialización en Technology Management", year: "2024–26", note: "TA, Business Model & Value Proposition" },
       { school: "Banco Interamericano de Desarrollo (BID)", degree: "Máster en Gestión Profesional de Proyectos", year: "2021", note: "Guatemala" },
       { school: "Universidad Francisco Marroquín", degree: "Licenciatura en Entrepreneurship", year: "2020", note: "Guatemala" },
     ],
@@ -521,7 +521,7 @@ const copy = {
       },
       {
         chapter: "跨越世界", years: "2024–26", role: "Global MBA · 科技管理", org: "陽明交大",
-        desc: "我以全額獎學金橫越太平洋，到正在打造未來的地方求學。如今我教授曾經學過的東西，以助教身分指導學生團隊。",
+        desc: "我橫越太平洋，到正在打造未來的地方求學。如今我教授曾經學過的東西，以助教身分指導學生團隊。",
       },
       {
         chapter: "成為兩個世界的橋樑", years: "2026–現在", role: "採購研究實習", org: "DRISA · 遠端，台灣 / 東南亞",
@@ -530,7 +530,7 @@ const copy = {
     ],
     eduLabel: "學歷",
     education: [
-      { school: "國立陽明交通大學", degree: "Global MBA — 科技管理專業", year: "2024–26", note: "全額獎學金 · 商業模式與價值主張課程助教" },
+      { school: "國立陽明交通大學", degree: "Global MBA — 科技管理專業", year: "2024–26", note: "商業模式與價值主張課程助教" },
       { school: "美洲開發銀行（IDB）", degree: "專業專案管理碩士", year: "2021", note: "瓜地馬拉" },
       { school: "Universidad Francisco Marroquín", degree: "創業學學士", year: "2020", note: "瓜地馬拉" },
     ],
@@ -1006,7 +1006,13 @@ html, body, #root {
   position: relative;
   z-index: 2;
 }
+.ed-hero-title > div { white-space: nowrap; }
 .ed-hero-title em { font-style: italic; font-weight: 400; }
+@media (max-width: 600px) {
+  .ed-hero-title { font-size: clamp(40px, 13vw, 60px); line-height: 1.08; }
+  .ed-hero-title > div { white-space: normal; }
+  .ed-hero-title .h-plain, .ed-hero-title .h-accent { display: inline; }
+}
 .ed-hero-sub {
   font-size: clamp(15px, 1.6vw, 18px);
   line-height: 1.7;
@@ -1119,21 +1125,21 @@ html, body, #root {
 .ed-vstrip {
   border-top: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
-  padding: clamp(18px, 3vh, 30px) 0;
+  padding: clamp(12px, 2vh, 20px) 0;
   overflow: hidden;
   background: var(--paper);
 }
 .ed-vstrip .trk { display: flex; width: max-content; will-change: transform; }
 @keyframes vscroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-.ed-vstrip .mv { display: flex; flex-shrink: 0; width: max-content; animation: vscroll 28s linear infinite; }
+.ed-vstrip .mv { display: flex; flex-shrink: 0; width: max-content; animation: vscroll 55s linear infinite; }
 .ed-vstrip .it {
   font-family: var(--serif);
   font-weight: 300;
   font-style: italic;
-  font-size: clamp(30px, 4.6vw, 60px);
+  font-size: clamp(20px, 2.8vw, 36px);
   white-space: nowrap;
   color: transparent;
-  -webkit-text-stroke: 1px rgba(243,239,227,0.5);
+  -webkit-text-stroke: 1px rgba(243,239,227,0.32);
   padding-right: 0.4em;
   transition: color 0.4s ease, -webkit-text-stroke 0.4s ease;
 }
@@ -1506,8 +1512,13 @@ html, body, #root {
   padding: clamp(28px, 4.5vw, 64px);
   min-height: min(56vh, 480px);
   justify-content: space-between;
+  touch-action: pan-y;
+  -webkit-tap-highlight-color: transparent;
 }
 .ed-card-head > * { position: relative; z-index: 1; }
+@media (max-width: 600px) {
+  .ed-card-head { min-height: auto; gap: 22px; }
+}
 
 /* the peek nudge — cards gesture when they enter view */
 @keyframes cardPeek {
@@ -1926,6 +1937,7 @@ html, body, #root {
   letter-spacing: 0.18em; text-transform: uppercase;
   color: var(--paper);
   background: var(--ink);
+  border: none; cursor: pointer;
   border-radius: 9999px;
   padding: clamp(18px, 2.4vw, 24px) clamp(30px, 4vw, 48px);
   text-decoration: none;
@@ -2544,7 +2556,7 @@ export default function DavidEditorial() {
           photoRef.current.style.transform = `translateY(${Math.min(y * 0.12, 140)}px) scale(1.06)`;
         }
         if (stripTrkRef.current) {
-          const skew = Math.max(-12, Math.min(12, vel * 0.45));
+          const skew = Math.max(-5, Math.min(5, vel * 0.18));
           stripTrkRef.current.style.transform = `skewX(${skew}deg)`;
         }
       }
@@ -2698,17 +2710,17 @@ export default function DavidEditorial() {
                 return (
                   <div key={li}>
                     {hasPlain && (
-                      <CharReveal text={plainText} start={entered} baseDelay={line.base} />
+                      <span className="h-plain"><CharReveal text={plainText} start={entered} baseDelay={line.base} /></span>
                     )}
                     {hasAccent && (
                       line.kind === "em" ? (
-                        <em>
+                        <em className="h-accent">
                           <CharReveal text={line.accent} start={entered} baseDelay={accentBase} />
                         </em>
                       ) : (
-                        <Mark on={entered} delay={1700}>
+                        <span className="h-accent"><Mark on={entered} delay={1700}>
                           <CharReveal text={line.accent} start={entered} baseDelay={accentBase} />
-                        </Mark>
+                        </Mark></span>
                       )
                     )}
                   </div>
@@ -3168,11 +3180,16 @@ export default function DavidEditorial() {
               style={{ marginTop: 44, animationDelay: "550ms" }}
             >
               <div className="flex flex-col gap-4" style={{ alignItems: "flex-start" }}>
-                <a ref={bigBtnRef} className="ed-big-btn magnet" href="mailto:davidm.mg13@nycu.edu.tw">
+                <button
+                  ref={bigBtnRef}
+                  type="button"
+                  className="ed-big-btn magnet"
+                  onClick={() => { setContactContext(""); setFormStatus("idle"); setContactOpen(true); }}
+                >
                   <span className="mk-bg" />
                   <span>{t.cta}</span>
                   <ArrowUpRight strokeWidth={1.5} style={{ width: 17, height: 17 }} />
-                </a>
+                </button>
                 {/* // CV BUTTON — set CV_URL above */}
                 <a className="ed-cv-btn" href={CV_URL || "#"} target={CV_URL ? "_blank" : undefined} rel="noreferrer">
                   <Download strokeWidth={1.5} style={{ width: 14, height: 14 }} />
