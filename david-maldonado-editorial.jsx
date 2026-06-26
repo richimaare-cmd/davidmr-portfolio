@@ -34,7 +34,7 @@ gsap.registerPlugin(ScrollTrigger);
    ════════════════════════════════════════════════════════════════ */
 
 /* // HERO PHOTO — large portrait / 3-4 body shot. "" = placeholder */
-const HERO_PHOTO_URL = "/david.jpg";
+const HERO_PHOTO_URL = "";
 /* // VIDEO — David speaking to camera (mp4/webm URL). "" = placeholder */
 const VIDEO_URL = "";
 /* // optional poster frame for the video */
@@ -43,9 +43,9 @@ const VIDEO_POSTER_URL = "";
    // the track matching the site's active language. */
 const SUBTITLE_URLS = { EN: "", ES: "", ZH: "" };
 /* // GIF — David giving a talk (gif/mp4 URL works in <img> if gif). "" = placeholder */
-const SPEAKING_GIF_URL = "/gif.JPG";
+const SPEAKING_GIF_URL = "";
 /* // CV — link to the hosted PDF */
-const CV_URL = "/David_Maldonado_CV.pdf";
+const CV_URL = "";
 
 /* // JOURNEY ILLUSTRATIONS — one small image per chapter (in order, oldest→newest).
    // Put your art in /public and reference with a leading slash, e.g. "/journey-1.png".
@@ -2239,7 +2239,7 @@ export default function DavidEditorial() {
     setFormStatus("sending");
     try {
       // FORMSPREE — replace YOUR_FORM_ID with your real Formspree form ID.
-      const res = await fetch("https://formspree.io/f/xykqwyge", {
+      const res = await fetch("https://formspree.io/f/YOUR_FORM_ID", {
         method: "POST",
         body: data,
         headers: { Accept: "application/json" },
