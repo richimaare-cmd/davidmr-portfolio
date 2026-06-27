@@ -246,8 +246,10 @@ const copy = {
       { title: "AIT Colombia Camp", sub: "Finalist · UPB Bogotá", year: "2020" },
     ],
     workedWith: "Worked with",
-    testimonialPlaceholder: "David's real strength is turning ambiguity into something that actually ships. His work is rigorous and honest. You can trust the thinking behind it completely.",
-    testimonialAttribution: "Alejandro Gonzales, Former Strategy Director at Crunch DNA",
+    testimonialQuote: "David's real strength is turning ambiguity into something that actually ships. He took on our pricing challenge and built a dynamic pricing tool that changed how we approached launching products. What stood out most was his commitment: he stayed with hard problems until they were solved properly, and never cut a corner. He also moves effortlessly across cultures and languages, and brings a warmth that makes working together genuinely enjoyable. Any team working in strategy, business development, or AI would be fortunate to have him.",
+    testimonialName: "Alejandro Gonzalez",
+    testimonialRole: "Former Head of E-commerce Consulting, Crunch DNA",
+    testimonialUrl: "https://www.linkedin.com/in/alo-gonzalez/?locale=es",
     contactLabel: "Next chapter",
     contactTitle: "Let's talk.",
     contactSub: "Hiring? Building something across markets? Write me; I answer in three languages, and I'm in Taiwan ready to start.",
@@ -439,8 +441,10 @@ const copy = {
       { title: "AIT Colombia Camp", sub: "Finalista · UPB Bogotá", year: "2020" },
     ],
     workedWith: "He trabajado con",
-    testimonialPlaceholder: "La mayor fortaleza de David es convertir la ambigüedad en soluciones que realmente llegan a producirse. Su trabajo es riguroso y honesto; puedes confiar plenamente en el razonamiento detrás de cada decisión.",
-    testimonialAttribution: "Alejandro Gonzales, Ex Director de Estrategia en Crunch DNA",
+    testimonialQuote: "La verdadera fortaleza de David es convertir la ambigüedad en algo que realmente se concreta. Tomó nuestro reto de pricing y construyó una herramienta de precios dinámicos que cambió cómo lanzábamos productos. Lo que más destacó fue su compromiso: se quedaba con los problemas difíciles hasta resolverlos bien, sin tomar atajos. Además se mueve sin esfuerzo entre culturas e idiomas, y aporta una calidez que hace que trabajar juntos sea genuinamente agradable. Cualquier equipo de estrategia, desarrollo de negocio o IA tendría suerte de tenerlo.",
+    testimonialName: "Alejandro Gonzalez",
+    testimonialRole: "Ex Head de E-commerce Consulting, Crunch DNA",
+    testimonialUrl: "https://www.linkedin.com/in/alo-gonzalez/?locale=es",
     contactLabel: "Siguiente capítulo",
     contactTitle: "Hablemos.",
     contactSub: "¿Contratando? ¿Construyendo algo entre mercados? Escríbeme; respondo en tres idiomas, y ya estoy en Taiwán listo para empezar.",
@@ -632,8 +636,10 @@ const copy = {
       { title: "AIT Colombia Camp", sub: "決賽入圍 · UPB 波哥大", year: "2020" },
     ],
     workedWith: "合作企業",
-    testimonialPlaceholder: "David 最突出的能力，是能將模糊不清的問題，轉化為真正落地並產生價值的成果。他的工作嚴謹且誠實，背後的思考過程值得完全信賴。",
-    testimonialAttribution: "Alejandro Gonzales, 前 Crunch DNA 策略總監",
+    testimonialQuote: "David 真正的強項，是把模糊的問題化為實際可交付的成果。他接下我們的定價挑戰，打造了一套動態定價工具，改變了我們推出產品的方式。最令人印象深刻的是他的投入：他會堅持把難題徹底解決，從不便宜行事。他也能輕鬆穿梭於不同文化與語言之間，並帶來一種讓合作變得真正愉快的溫暖。任何在策略、商業開發或 AI 領域的團隊，能有他都是幸運。",
+    testimonialName: "Alejandro Gonzalez",
+    testimonialRole: "Crunch DNA 前電商顧問主管",
+    testimonialUrl: "https://www.linkedin.com/in/alo-gonzalez/?locale=es",
     contactLabel: "下一章",
     contactTitle: "聊聊吧。",
     contactSub: "正在招募？正在打造跨市場的事業？寫信給我; 我能用三種語言回覆，而且我人就在台灣，隨時可以開始。",
@@ -915,7 +921,9 @@ html, body, #root {
   filter: drop-shadow(0 0 6px rgba(255,225,77,0.9)) drop-shadow(0 0 14px rgba(255,225,77,0.5));
 }
 @media (max-width: 759px) {
-  .ed-thread-wrap { opacity: 0.55; }
+  .ed-thread-wrap { opacity: 0.28; }
+  .ed-thread-wrap .thread-path { stroke-width: 1.5; filter: none; }
+  .ed-thread-wrap .thread-dot { display: none; }
 }
 
 /* ═══════ HIGHLIGHTER PROGRESS BAR ═══════ */
@@ -929,6 +937,7 @@ html, body, #root {
   font-family: var(--mono); font-size: 11px; letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--paper); background: var(--ink);
+  border: none; cursor: pointer;
   border-radius: 9999px; padding: 14px 24px;
   text-decoration: none;
   box-shadow: 0 12px 28px -12px rgba(27,24,18,0.5);
@@ -1039,9 +1048,9 @@ html, body, #root {
 .ed-hero-title > div { white-space: nowrap; }
 .ed-hero-title em { font-style: italic; font-weight: 400; }
 @media (max-width: 600px) {
-  .ed-hero-title { font-size: clamp(40px, 13vw, 60px); line-height: 1.08; }
-  .ed-hero-title > div { white-space: normal; }
-  .ed-hero-title .h-plain, .ed-hero-title .h-accent { display: inline; }
+  .ed-hero-title { font-size: clamp(40px, 13vw, 62px); line-height: 1.04; }
+  .ed-hero-title > div { white-space: nowrap; }
+  .ed-hero-title .h-plain, .ed-hero-title .h-accent { display: block; white-space: nowrap; }
 }
 .ed-hero-sub {
   font-size: clamp(15px, 1.6vw, 18px);
@@ -1126,6 +1135,7 @@ html, body, #root {
   z-index: 4;
   text-decoration: none;
   display: block;
+  background: none; border: none; padding: 0; cursor: pointer;
 }
 @keyframes badgeSpin { to { transform: rotate(360deg); } }
 .ed-badge-wrap svg { width: 100%; height: 100%; animation: badgeSpin 16s linear infinite; }
@@ -1283,7 +1293,7 @@ html, body, #root {
   transition: opacity 0.6s ease, transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 .ed-stop.in .ed-stop-art { opacity: 1; transform: scale(1); }
-.ed-stop-art img { width: 64%; height: 64%; object-fit: contain; }
+.ed-stop-art img { width: 78%; height: 78%; object-fit: contain; }
 .ed-stop-num {
   font-family: var(--serif); font-style: italic; font-weight: 300;
   font-size: clamp(40px, 7vw, 68px);
@@ -1348,7 +1358,7 @@ html, body, #root {
     margin: 0;
   }
   .ed-stop-num { font-size: 26px; }
-  .ed-stop-art img { width: 60%; height: 60%; }
+  .ed-stop-art img { width: 74%; height: 74%; }
   /* dot hugs the bottom of each marker, on the rail */
   .ed-stop-dot { bottom: -6px; top: auto; left: 50%; right: auto; transform: translateX(-50%); }
   /* text always to the right, never centered over the line */
@@ -1937,7 +1947,19 @@ html, body, #root {
   font-family: var(--serif); font-weight: 300; font-style: italic;
   font-size: clamp(22px, 3vw, 34px); line-height: 1.45;
 }
-.ed-quote .attr { font-family: var(--mono); font-size: 12px; letter-spacing: 0.1em; color: var(--ink-soft); margin-top: 20px; }
+.ed-quote .attr {
+  font-family: var(--mono); font-size: 12px; letter-spacing: 0.1em;
+  color: var(--ink-soft); margin-top: 26px;
+  display: flex; flex-direction: column; gap: 4px;
+  text-decoration: none; width: fit-content;
+}
+.ed-quote .attr strong { color: var(--ink); font-weight: 500; letter-spacing: 0.04em; }
+.ed-quote .attr .attr-link {
+  display: inline-flex; align-items: center; gap: 6px;
+  color: var(--mark); margin-top: 6px;
+  transition: gap 0.3s ease;
+}
+.ed-quote .attr:hover .attr-link { gap: 10px; }
 
 /* ═══════ CONTACT ═══════ */
 .ed-contact {
@@ -2230,9 +2252,9 @@ function Stat({ value, suffix, label, start }) {
 }
 
 /* spinning "open to work" badge */
-function SpinBadge() {
+function SpinBadge({ onOpen }) {
   return (
-    <a className="ed-badge-wrap" href="mailto:davidm.mg13@nycu.edu.tw" aria-label="Open to work — contact David">
+    <button type="button" className="ed-badge-wrap" onClick={onOpen} aria-label="Open to work — contact David">
       <svg viewBox="0 0 140 140">
         <circle className="disc" cx="70" cy="70" r="68" />
         <defs>
@@ -2245,7 +2267,7 @@ function SpinBadge() {
       <span className="core">
         <ArrowUpRight strokeWidth={1.5} style={{ width: 20, height: 20 }} />
       </span>
-    </a>
+    </button>
   );
 }
 
@@ -2725,13 +2747,14 @@ export default function DavidEditorial() {
 
       {/* floating CTA */}
       {entered && (
-        <a
+        <button
+          type="button"
           className={`ed-float-cta ${showFloat ? "show" : ""}`}
-          href="mailto:davidm.mg13@nycu.edu.tw"
+          onClick={() => { setContactContext(""); setFormStatus("idle"); setContactOpen(true); }}
         >
           <span>{t.cta}</span>
           <ArrowUpRight strokeWidth={1.5} style={{ width: 15, height: 15 }} />
-        </a>
+        </button>
       )}
 
       <div className={`ed-main ${entered ? "visible" : ""}`}>
@@ -2754,7 +2777,7 @@ export default function DavidEditorial() {
               )}
               {!HERO_PHOTO_URL && <div className="ph-label">[ FOTO — DAVID ]</div>}
             </div>
-            <SpinBadge />
+            <SpinBadge onOpen={() => { setContactContext(""); setFormStatus("idle"); setContactOpen(true); }} />
           </div>
           <div className="grain" />
 
@@ -2986,7 +3009,6 @@ export default function DavidEditorial() {
                       {art
                         ? <img src={art} alt={row.chapter} loading="lazy" />
                         : <span className="ed-stop-num">{String(i + 1).padStart(2, "0")}</span>}
-                      <span className="ed-stop-dot" />
                     </div>
                     <div className="ed-stop-card">
                       <span className="ed-stop-years">{row.years}</span>
@@ -3221,8 +3243,12 @@ export default function DavidEditorial() {
 
             <div className="ed-quote">
               <span className="qmark">"</span>
-              <p>{t.testimonialPlaceholder}</p>
-              <div className="attr">{t.testimonialAttribution}</div>
+              <p>{t.testimonialQuote}</p>
+              <a className="attr" href={t.testimonialUrl} target="_blank" rel="noreferrer">
+                <strong>{t.testimonialName}</strong>
+                <span>{t.testimonialRole}</span>
+                <span className="attr-link"><Linkedin strokeWidth={1.5} style={{ width: 13, height: 13 }} /> LinkedIn</span>
+              </a>
             </div>
           </div>
         </section>
