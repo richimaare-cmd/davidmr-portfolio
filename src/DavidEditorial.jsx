@@ -51,12 +51,12 @@ const CV_URL = "/David_Maldonado_CV.pdf";
    // Put your art in /public and reference with a leading slash, e.g. "/journey-1.png".
    // Leave "" to show a numbered placeholder marker instead. */
 const JOURNEY_ART = [
-  "journey_1.png", // 01 — The first leap (Pizzería Porto)
-  "journey_2.png", // 02 — Learning to ship (Consultancy)
-  "journey_3.png", // 03 — Finding the craft (Mosan)
-  "journey_4.png", // 04 — Leading the team (Crunch DNA)
-  "journey_5.png", // 05 — The high-stakes test (Mosan)
-  "journey_6.png", // 06 — Crossing the world (NYCU)
+  "", // 01 — The first leap (Pizzería Porto)
+  "", // 02 — Learning to ship (Consultancy)
+  "", // 03 — Finding the craft (Mosan)
+  "", // 04 — Leading the team (Crunch DNA)
+  "", // 05 — The high-stakes test (Mosan)
+  "", // 06 — Crossing the world (NYCU)
   "", // 07 — Bridging two worlds (DRISA)
 ];
 
