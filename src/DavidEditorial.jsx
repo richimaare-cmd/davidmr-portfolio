@@ -51,12 +51,12 @@ const CV_URL = "/David_Maldonado_CV.pdf";
    // Put your art in /public and reference with a leading slash, e.g. "/journey-1.png".
    // Leave "" to show a numbered placeholder marker instead. */
 const JOURNEY_ART = [
-  "", // 01 — The first leap (Pizzería Porto)
-  "", // 02 — Learning to ship (Consultancy)
-  "", // 03 — Finding the craft (Mosan)
-  "", // 04 — Leading the team (Crunch DNA)
-  "", // 05 — The high-stakes test (Mosan)
-  "", // 06 — Crossing the world (NYCU)
+  "journey_1.png", // 01 — The first leap (Pizzería Porto)
+  "journey_2.png", // 02 — Learning to ship (Consultancy)
+  "journey_3.png", // 03 — Finding the craft (Mosan)
+  "journey_4.png", // 04 — Leading the team (Crunch DNA)
+  "journey_5.png", // 05 — The high-stakes test (Mosan)
+  "journey_6.png", // 06 — Crossing the world (NYCU)
   "", // 07 — Bridging two worlds (DRISA)
 ];
 
@@ -737,50 +737,64 @@ html, body, #root {
 .ed-loader {
   position: fixed; inset: 0;
   z-index: 95;
-  background: var(--ink);
-  color: var(--paper);
+  background: radial-gradient(circle at 50% 38%, #1a1d30 0%, #11131f 55%, #0b0d16 100%);
+  color: var(--ink);
   display: flex; flex-direction: column;
   align-items: center; justify-content: center;
-  gap: 32px;
+  gap: 36px;
   transform: translateY(0);
   transition: transform 1.05s cubic-bezier(0.76, 0, 0.24, 1);
+  overflow: hidden;
+}
+.ed-loader::before {
+  content: '';
+  position: absolute; inset: 0;
+  pointer-events: none;
+  opacity: 0.5; mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix type='matrix' values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.4 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  background-size: 240px 240px;
 }
 .ed-loader.leaving { transform: translateY(calc(-100% - 18vh)); }
 .ed-loader .curve {
   position: absolute;
   top: calc(100% - 1px); left: -6%;
   width: 112%; height: 18vh;
-  background: var(--ink);
+  background: #0b0d16;
   border-radius: 0 0 50% 50%;
 }
 .ed-loader .greet {
+  position: relative; z-index: 1;
   font-family: var(--serif);
   font-style: italic;
   font-weight: 300;
-  font-size: clamp(56px, 11vw, 140px);
-  line-height: 1.1;
+  font-size: clamp(72px, 14vw, 184px);
+  line-height: 1.05;
+  color: var(--ink);
+  text-shadow: 0 0 50px rgba(255,225,77,0.18);
 }
-@keyframes greetIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
-.ed-loader .greet > span { display: inline-block; animation: greetIn 0.5s ease; }
+.ed-loader .greet .dot { color: var(--mark); }
+@keyframes greetIn { from { opacity: 0; transform: translateY(20px); filter: blur(6px); } to { opacity: 1; transform: translateY(0); filter: blur(0); } }
+.ed-loader .greet > span { display: inline-block; animation: greetIn 0.6s cubic-bezier(0.22, 1, 0.36, 1); }
 .ed-loader .sub {
+  position: relative; z-index: 1;
   font-family: var(--mono);
-  font-size: 10px;
-  letter-spacing: 0.26em;
+  font-size: 11px;
+  letter-spacing: 0.3em;
   text-transform: uppercase;
-  color: rgba(245,241,232,0.5);
+  color: rgba(243,239,227,0.55);
   text-align: center;
   padding: 0 20px;
 }
-.ed-loader .row { display: flex; gap: clamp(14px, 4vw, 36px); min-height: 56px; flex-wrap: wrap; justify-content: center; }
+.ed-loader .row { position: relative; z-index: 1; display: flex; gap: clamp(14px, 4vw, 36px); min-height: 56px; flex-wrap: wrap; justify-content: center; }
 .ed-lang2 {
   font-family: var(--serif);
   font-weight: 400;
   font-size: clamp(17px, 2.4vw, 24px);
-  padding: 10px 28px;
+  padding: 11px 30px;
   border-radius: 9999px;
-  border: 1px solid rgba(245,241,232,0.3);
-  background: none;
-  color: var(--paper);
+  border: 1px solid rgba(243,239,227,0.28);
+  background: rgba(243,239,227,0.03);
+  color: var(--ink);
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
   opacity: 0;
@@ -788,29 +802,45 @@ html, body, #root {
 .ed-lang2.in { animation: edUp 0.55s ease forwards; }
 .ed-lang2:hover, .ed-lang2:focus-visible {
   background: var(--mark);
-  color: var(--ink);
+  color: var(--slab-ink);
   border-color: var(--mark);
   transform: translateY(-3px);
+  box-shadow: 0 12px 30px -10px rgba(255,225,77,0.5);
 }
 .ed-lang2:focus-visible { outline: 1px solid var(--mark); outline-offset: 4px; }
 .ed-loader .pct {
   position: absolute;
-  bottom: 22px; left: clamp(20px, 5vw, 64px);
+  bottom: 26px; left: clamp(20px, 5vw, 64px);
   font-family: var(--serif);
   font-weight: 300;
   font-size: clamp(58px, 9vw, 120px);
   line-height: 1;
-  color: var(--mark);
+  color: var(--ink);
   font-variant-numeric: tabular-nums;
+  z-index: 1;
 }
-.ed-loader .pct small { font-size: 0.32em; font-style: italic; }
+.ed-loader .pct small { font-size: 0.32em; font-style: italic; color: var(--mark); }
+.ed-loader .pct-bar {
+  position: absolute;
+  bottom: 30px; left: clamp(20px, 5vw, 64px); right: clamp(20px, 5vw, 64px);
+  height: 2px;
+  background: rgba(243,239,227,0.12);
+  z-index: 0;
+}
+.ed-loader .pct-bar .fill {
+  height: 100%;
+  background: var(--mark);
+  box-shadow: 0 0 12px rgba(255,225,77,0.7);
+  transition: width 0.3s ease;
+}
 .ed-loader .pct-note {
   position: absolute;
-  bottom: 30px; right: clamp(20px, 5vw, 64px);
+  bottom: 34px; right: clamp(20px, 5vw, 64px);
   font-family: var(--mono);
   font-size: 9px; letter-spacing: 0.3em;
   text-transform: uppercase;
-  color: rgba(245,241,232,0.35);
+  color: rgba(243,239,227,0.4);
+  z-index: 1;
 }
 
 /* ═══════ NAV ═══════ */
@@ -863,13 +893,13 @@ html, body, #root {
 /* ═══════ THE CONNECTING THREAD ═══════ */
 .ed-thread-wrap {
   position: absolute;
-  top: 0; right: 0;
-  width: 200px; height: 100%;
+  top: 0; left: 0; right: 0;
+  width: 100%; height: 100%;
   pointer-events: none;
   z-index: 6;
   overflow: visible;
 }
-.ed-thread { display: block; overflow: visible; }
+.ed-thread { display: block; overflow: visible; width: 100%; height: 100%; transition: opacity 0.6s ease; }
 .thread-path {
   fill: none;
   stroke: var(--mark);
@@ -885,7 +915,7 @@ html, body, #root {
   filter: drop-shadow(0 0 6px rgba(255,225,77,0.9)) drop-shadow(0 0 14px rgba(255,225,77,0.5));
 }
 @media (max-width: 759px) {
-  .ed-thread-wrap { width: 70px; opacity: 0.55; }
+  .ed-thread-wrap { opacity: 0.55; }
 }
 
 /* ═══════ HIGHLIGHTER PROGRESS BAR ═══════ */
@@ -1211,6 +1241,14 @@ html, body, #root {
   stroke-dasharray: 2 12;
   filter: drop-shadow(0 0 5px rgba(255,225,77,0.6)) drop-shadow(0 0 12px rgba(255,225,77,0.3));
 }
+.jp-dot {
+  fill: var(--mark);
+  stroke: var(--paper);
+  stroke-width: 3;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  filter: drop-shadow(0 0 6px rgba(255,225,77,0.9)) drop-shadow(0 0 14px rgba(255,225,77,0.5));
+}
 .ed-stop {
   position: relative; z-index: 1;
   display: grid;
@@ -1225,6 +1263,9 @@ html, body, #root {
   .ed-stop.right .ed-stop-art { order: 2; }
   .ed-stop.right .ed-stop-card { order: 1; text-align: right; }
   .ed-stop.right .ed-stop-org { justify-content: flex-end; }
+  /* more breathing room between stops => the thread travels slower here,
+     giving the journey a calmer, more deliberate pace as you scroll */
+  .ed-stop { margin-bottom: clamp(150px, 20vh, 260px); }
 }
 
 /* the art marker on the path */
@@ -2250,6 +2291,7 @@ export default function DavidEditorial() {
   const journeyRef = useRef(null);
   const journeyPathRef = useRef(null);
   const journeyPathDrawRef = useRef(null);
+  const journeyDotRef = useRef(null);
   const journeyStopRefs = useRef([]);
   const bigBtnRef = useMagnetic(0.22);
 
@@ -2356,7 +2398,9 @@ export default function DavidEditorial() {
     };
   }, [entered]);
 
-  /* ───────── THE CONNECTING THREAD — draws as you scroll ───────── */
+  /* ───────── THE CONNECTING THREAD — simple margin thread.
+     It fades out while the journey section is on screen (the journey has its
+     own path + dot there), then fades back in. Robust across all screens. ───────── */
   useEffect(() => {
     if (!entered) return;
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -2365,29 +2409,28 @@ export default function DavidEditorial() {
     if (!path || !svg) return;
 
     let st = null;
+    let fadeST = null;
 
     const build = () => {
       const h = document.documentElement.scrollHeight;
-      const isMobile = window.innerWidth < 760;
-      // thread weaves in the right margin; cx measured within the 200px band
-      const cx = isMobile ? 150 : 128;         // px (band is 200 wide, anchored right)
-      const amp = isMobile ? 14 : 44;          // how far it swings
-      svg.setAttribute("viewBox", `0 0 200 ${h}`);
-      svg.setAttribute("width", "200");
-      svg.setAttribute("height", `${h}`);
-
-      // weave a smooth sine-like path down the full height
+      const vw = window.innerWidth;
+      const isMobile = vw < 760;
+      const cx = isMobile ? 150 : 128;         // thread x inside the 200px right band
+      const amp = isMobile ? 14 : 44;          // swing of the thread
       const seg = isMobile ? 420 : 540;        // vertical distance per swing
-      let d = `M ${cx} 0`;
-      let y = 0;
-      let dir = 1;
+      svg.setAttribute("viewBox", `0 0 ${vw} ${h}`);
+      svg.setAttribute("width", `${vw}`);
+      svg.setAttribute("height", `${h}`);
+      const tx = vw - 200 + cx;
+
+      // simple weaving thread down the right margin
+      let d = `M ${tx} 0`;
+      let y = 0; let dir = 1;
       while (y < h) {
         const ny = Math.min(y + seg, h);
         const midY = (y + ny) / 2;
-        const ctrlX = cx + dir * amp;
-        d += ` C ${ctrlX} ${midY}, ${ctrlX} ${midY}, ${cx} ${ny}`;
-        y = ny;
-        dir *= -1;
+        d += ` C ${tx + dir * amp} ${midY}, ${tx + dir * amp} ${midY}, ${tx} ${ny}`;
+        y = ny; dir *= -1;
       }
       path.setAttribute("d", d);
 
@@ -2396,6 +2439,7 @@ export default function DavidEditorial() {
       path.style.strokeDashoffset = reduced ? "0" : `${len}`;
 
       if (st) st.kill();
+      if (fadeST) fadeST.kill();
       if (reduced) return;
 
       st = ScrollTrigger.create({
@@ -2413,20 +2457,36 @@ export default function DavidEditorial() {
           }
         },
       });
+
+      // fade the margin thread out while the journey section is on screen
+      const journeyEl = journeyRef.current;
+      if (journeyEl) {
+        fadeST = ScrollTrigger.create({
+          trigger: journeyEl,
+          start: "top 80%",
+          end: "bottom 20%",
+          onEnter: () => { svg.style.opacity = "0"; },
+          onLeave: () => { svg.style.opacity = "1"; },
+          onEnterBack: () => { svg.style.opacity = "0"; },
+          onLeaveBack: () => { svg.style.opacity = "1"; },
+        });
+      }
     };
 
     build();
     const onResize = () => { ScrollTrigger.refresh(); build(); };
     window.addEventListener("resize", onResize);
-    // rebuild once more after fonts/images settle
-    const t = setTimeout(build, 600);
+    const t1 = setTimeout(build, 600);
+    const t2 = setTimeout(build, 1400);
 
     return () => {
       window.removeEventListener("resize", onResize);
-      clearTimeout(t);
+      clearTimeout(t1);
+      clearTimeout(t2);
       if (st) st.kill();
+      if (fadeST) fadeST.kill();
     };
-  }, [entered]);
+  }, [entered, lang, openCard]);
 
   /* ───────── CARD PEEK — nudge each card once as it enters view ───────── */
   useEffect(() => {
@@ -2506,7 +2566,18 @@ export default function DavidEditorial() {
           end: "bottom 70%",
           scrub: 1,
           onUpdate: (self) => {
-            drawPath.style.strokeDashoffset = `${len * (1 - self.progress)}`;
+            const drawn = len * self.progress;
+            drawPath.style.strokeDashoffset = `${len - drawn}`;
+            if (journeyDotRef.current) {
+              if (self.progress > 0.001 && self.progress < 0.999) {
+                const pt = drawPath.getPointAtLength(drawn);
+                journeyDotRef.current.setAttribute("cx", pt.x);
+                journeyDotRef.current.setAttribute("cy", pt.y);
+                journeyDotRef.current.style.opacity = "1";
+              } else {
+                journeyDotRef.current.style.opacity = "0";
+              }
+            }
           },
         });
       }
@@ -2596,7 +2667,10 @@ export default function DavidEditorial() {
         <div className={`ed-loader ${loaderLeaving ? "leaving" : ""}`}>
           <div className="curve" />
           <div className="greet" key={greetIdx}>
-            <span>{GREETINGS[greetIdx]}</span>
+            <span>
+              {GREETINGS[greetIdx].slice(0, -1)}
+              <span className="dot">{GREETINGS[greetIdx].slice(-1)}</span>
+            </span>
           </div>
           <div className="sub">{t.splashSub}</div>
           <div className="row">
@@ -2616,6 +2690,7 @@ export default function DavidEditorial() {
             {loadPct}
             <small>%</small>
           </div>
+          <div className="pct-bar"><div className="fill" style={{ width: `${loadPct}%` }} /></div>
           <div className="pct-note">GUATEMALA → TAIWAN</div>
         </div>
       )}
@@ -2895,6 +2970,7 @@ export default function DavidEditorial() {
               <svg className="ed-journey-path" preserveAspectRatio="none" aria-hidden="true">
                 <path ref={journeyPathRef} className="jp-line" />
                 <path ref={journeyPathDrawRef} className="jp-line-draw" />
+                <circle ref={journeyDotRef} className="jp-dot" cx="-20" cy="-20" r="6" />
               </svg>
 
               {t.timeline.map((row, i) => {
