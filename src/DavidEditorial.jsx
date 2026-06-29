@@ -76,7 +76,7 @@ const copy = {
     formClose: "Close",
     formRe: "Regarding:",
     formRePrefill: "Hi David, I'm reaching out about",
-    availability: "Available, graduating June 2026",
+    availability: "Available, open to opportunities",
     heroKicker: "GUATEMALA → TAIWAN → ANYWHERE",
     heroLine1: "Strategy and",
     heroHl1: "ventures,",
@@ -271,7 +271,7 @@ const copy = {
     formClose: "Cerrar",
     formRe: "Sobre:",
     formRePrefill: "Hola David, te escribo sobre",
-    availability: "Disponible, graduación junio 2026",
+    availability: "Disponible, abierto a oportunidades",
     heroKicker: "GUATEMALA → TAIWÁN → EL MUNDO",
     heroLine1: "Estrategia y",
     heroHl1: "ventures,",
@@ -466,7 +466,7 @@ const copy = {
     formClose: "關閉",
     formRe: "關於：",
     formRePrefill: "David 你好，我想聊聊關於",
-    availability: "求職中，2026 年 6 月畢業",
+    availability: "求職中，歡迎洽談",
     heroKicker: "瓜地馬拉 → 台灣 → 世界",
     heroLine1: "策略與創業，",
     heroHl1: "",
@@ -767,6 +767,19 @@ html, body, #root {
   width: 112%; height: 18vh;
   background: #0b0d16;
   border-radius: 0 0 50% 50%;
+  /* a luminous edge so the curtain reveal reads even when the page bg
+     matches the loader bg: a bright curved line sweeps up the screen */
+  box-shadow: 0 5px 26px rgba(255,225,77,0.42), 0 2px 0 rgba(255,225,77,0.85);
+}
+/* as the curtain leaves, fade its content out so the motion reads clearly */
+.ed-loader.leaving .greet,
+.ed-loader.leaving .sub,
+.ed-loader.leaving .row,
+.ed-loader.leaving .pct,
+.ed-loader.leaving .pct-bar,
+.ed-loader.leaving .pct-note {
+  opacity: 0;
+  transition: opacity 0.4s ease;
 }
 .ed-loader .greet {
   position: relative; z-index: 1;
@@ -924,6 +937,9 @@ html, body, #root {
   .ed-thread-wrap { opacity: 0.28; }
   .ed-thread-wrap .thread-path { stroke-width: 1.5; filter: none; }
   .ed-thread-wrap .thread-dot { display: none; }
+  /* declutter the mobile hero: the spinning badge is redundant with the
+     status pill, the floating CTA and the nav contact link */
+  .ed-badge-wrap { display: none; }
 }
 
 /* ═══════ HIGHLIGHTER PROGRESS BAR ═══════ */
@@ -1051,6 +1067,9 @@ html, body, #root {
   .ed-hero-title { font-size: clamp(40px, 13vw, 62px); line-height: 1.04; }
   .ed-hero-title > div { white-space: nowrap; }
   .ed-hero-title .h-plain, .ed-hero-title .h-accent { display: block; white-space: nowrap; }
+  /* quieter background photo so the headline and status read cleanly */
+  .ed-hero-photo { opacity: 0.22; }
+  .ed-hero-photo::after { background: linear-gradient(180deg, rgba(17,19,31,0.88), rgba(17,19,31,0.72)); }
 }
 .ed-hero-sub {
   font-size: clamp(15px, 1.6vw, 18px);
