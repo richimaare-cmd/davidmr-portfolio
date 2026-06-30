@@ -36,7 +36,7 @@ gsap.registerPlugin(ScrollTrigger);
 /* // HERO PHOTO — large portrait / 3-4 body shot. "" = placeholder */
 const HERO_PHOTO_URL = "/david.jpg";
 /* // VIDEO — David speaking to camera (mp4/webm URL). "" = placeholder */
-const VIDEO_URL = "https://player.cloudinary.com/embed/?cloud_name=tgjqkiot&public_id=updated_video_website_zkk8mo";
+const VIDEO_URL = "https://res.cloudinary.com/tgjqkiot/video/upload/updated_video_website_zkk8mo.mp4";
 /* // optional poster frame for the video */
 const VIDEO_POSTER_URL = "";
 /* // SUBTITLES — WebVTT (.vtt) files per language. The player auto-selects
