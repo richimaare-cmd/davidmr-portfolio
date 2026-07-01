@@ -62,6 +62,8 @@ const JOURNEY_ART = [
 
 const copy = {
   EN: {
+    splashName: "David Maldonado",
+    splashRole: "Strategy · Ventures · AI",
     splashSub: "Choose your language · Elige tu idioma · 選擇語言",
     navContact: "Contact",
     formTitle: "Let's talk.",
@@ -257,6 +259,8 @@ const copy = {
     footer: "Written & designed like an essay · Hsinchu, Taiwan",
   },
   ES: {
+    splashName: "David Maldonado",
+    splashRole: "Estrategia · Ventures · IA",
     splashSub: "Elige tu idioma · Choose your language · 選擇語言",
     navContact: "Contacto",
     formTitle: "Hablemos.",
@@ -452,6 +456,8 @@ const copy = {
     footer: "Escrito y diseñado como un ensayo · Hsinchu, Taiwán",
   },
   ZH: {
+    splashName: "David Maldonado",
+    splashRole: "策略 · 創業 · AI",
     splashSub: "選擇語言 · Choose your language · Elige tu idioma",
     navContact: "聯絡",
     formTitle: "聊聊吧。",
@@ -654,6 +660,17 @@ const companies = ["BELIV", "TRUPPER", "POSTOBÓN", "PERU PIMA", "CBC", "KRAM", 
 /* loader greeting cycle — 您好 (formal) reads right when addressing recruiters */
 const GREETINGS = ["Hola.", "Hello.", "您好。"];
 
+/* section anchors for the side navigation dots (labels per language) */
+const NAV_SECTIONS = [
+  { id: "top",         label: { EN: "Top",          ES: "Inicio",      ZH: "首頁" } },
+  { id: "story",       label: { EN: "Story",        ES: "Historia",    ZH: "故事" } },
+  { id: "video",       label: { EN: "In person",    ES: "En persona",  ZH: "影片" } },
+  { id: "journey",     label: { EN: "Journey",      ES: "Trayectoria", ZH: "歷程" } },
+  { id: "capabilities",label: { EN: "How I help",   ES: "Cómo ayudo",  ZH: "專長" } },
+  { id: "recognition", label: { EN: "Recognition",  ES: "Referencias", ZH: "推薦" } },
+  { id: "contact",     label: { EN: "Contact",      ES: "Contacto",    ZH: "聯絡" } },
+];
+
 const css = `
 @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@300;400&display=swap');
 
@@ -773,6 +790,8 @@ html, body, #root {
 }
 /* as the curtain leaves, fade its content out so the motion reads clearly */
 .ed-loader.leaving .greet,
+.ed-loader.leaving .loader-name,
+.ed-loader.leaving .loader-role,
 .ed-loader.leaving .sub,
 .ed-loader.leaving .row,
 .ed-loader.leaving .pct,
@@ -794,6 +813,28 @@ html, body, #root {
 .ed-loader .greet .dot { color: var(--mark); }
 @keyframes greetIn { from { opacity: 0; transform: translateY(20px); filter: blur(6px); } to { opacity: 1; transform: translateY(0); filter: blur(0); } }
 .ed-loader .greet > span { display: inline-block; animation: greetIn 0.6s cubic-bezier(0.22, 1, 0.36, 1); }
+@keyframes loaderFade { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+.ed-loader .loader-name {
+  position: relative; z-index: 1;
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(20px, 2.6vw, 30px);
+  color: var(--ink);
+  letter-spacing: 0.01em;
+  margin-bottom: 6px;
+  animation: loaderFade 0.7s ease both;
+}
+.ed-loader .loader-role {
+  position: relative; z-index: 1;
+  font-family: var(--mono);
+  font-size: clamp(10px, 1.4vw, 13px);
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--mark);
+  margin-top: 4px;
+  animation: loaderFade 0.7s ease 0.15s both;
+}
 .ed-loader .sub {
   position: relative; z-index: 1;
   font-family: var(--mono);
@@ -933,6 +974,50 @@ html, body, #root {
   stroke-width: 3;
   filter: drop-shadow(0 0 6px rgba(255,225,77,0.9)) drop-shadow(0 0 14px rgba(255,225,77,0.5));
 }
+
+/* ═══════ SIDE NAV DOTS ═══════ */
+.ed-navdots {
+  position: fixed;
+  right: 26px; top: 50%; transform: translateY(-50%);
+  z-index: 40;
+  display: flex; flex-direction: column; align-items: flex-end;
+  gap: 20px;
+}
+.ed-navdot {
+  display: flex; align-items: center; gap: 12px;
+  background: none; border: none; cursor: pointer; padding: 4px 0;
+  -webkit-tap-highlight-color: transparent;
+}
+.ed-navdot-label {
+  font-family: var(--mono);
+  font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--ink-soft);
+  opacity: 0; transform: translateX(6px);
+  transition: opacity 0.35s ease, transform 0.35s ease, color 0.35s ease;
+  white-space: nowrap; pointer-events: none;
+}
+.ed-navdot-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  border: 1px solid rgba(243,239,227,0.4);
+  background: transparent;
+  transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  flex-shrink: 0;
+}
+/* hover: reveal label + fill dot */
+.ed-navdot:hover .ed-navdot-label,
+.ed-navdot:focus-visible .ed-navdot-label { opacity: 1; transform: translateX(0); color: var(--ink); }
+.ed-navdot:hover .ed-navdot-dot { border-color: var(--mark); background: rgba(255,225,77,0.4); }
+.ed-navdot:focus-visible { outline: none; }
+.ed-navdot:focus-visible .ed-navdot-dot { outline: 2px solid var(--mark); outline-offset: 3px; }
+/* active section: glowing yellow dot */
+.ed-navdot.active .ed-navdot-dot {
+  border-color: var(--mark);
+  background: var(--mark);
+  box-shadow: 0 0 10px rgba(255,225,77,0.7);
+  transform: scale(1.15);
+}
+.ed-navdot.active .ed-navdot-label { opacity: 1; transform: translateX(0); color: var(--mark); }
+
 @media (max-width: 759px) {
   .ed-thread-wrap { opacity: 0.28; }
   .ed-thread-wrap .thread-path { stroke-width: 1.5; filter: none; }
@@ -940,6 +1025,9 @@ html, body, #root {
   /* declutter the mobile hero: the spinning badge is redundant with the
      status pill, the floating CTA and the nav contact link */
   .ed-badge-wrap { display: none; }
+  /* hide the side nav dots on mobile — not enough room, and the floating
+     CTA + native scroll already cover navigation */
+  .ed-navdots { display: none; }
 }
 
 /* ═══════ HIGHLIGHTER PROGRESS BAR ═══════ */
@@ -1909,7 +1997,7 @@ html, body, #root {
 }
 .ed-step .sn {
   grid-row: span 2;
-  font-family: var(--mono); font-size: 12px; color: var(--ink);
+  font-family: var(--mono); font-size: 12px; font-weight: 700; color: #0c0e18;
   background: var(--mark); width: 26px; height: 26px;
   display: flex; align-items: center; justify-content: center;
   border-radius: 50%; flex-shrink: 0;
@@ -2319,6 +2407,7 @@ export default function DavidEditorial() {
   const [greetIdx, setGreetIdx] = useState(0);
   const [scrolled, setScrolled] = useState(false);
   const [showFloat, setShowFloat] = useState(false);
+  const [activeSection, setActiveSection] = useState("top");
   const [openCard, setOpenCard] = useState(-1);
   const [contactOpen, setContactOpen] = useState(false);
   const [contactContext, setContactContext] = useState("");
@@ -2343,6 +2432,7 @@ export default function DavidEditorial() {
   /* refs driven by the single rAF loop (no per-frame React renders) */
   const progressFillRef = useRef(null);
   const threadRef = useRef(null);
+  const lenisRef = useRef(null);
   const threadDotRef = useRef(null);
   const photoRef = useRef(null);
   const stripTrkRef = useRef(null);
@@ -2445,6 +2535,7 @@ export default function DavidEditorial() {
       smoothWheel: true,
       syncTouch: false,
     });
+    lenisRef.current = lenis;
 
     lenis.on("scroll", ScrollTrigger.update);
     const raf = (time) => lenis.raf(time * 1000);
@@ -2454,6 +2545,7 @@ export default function DavidEditorial() {
     return () => {
       gsap.ticker.remove(raf);
       lenis.destroy();
+      lenisRef.current = null;
     };
   }, [entered]);
 
@@ -2553,6 +2645,36 @@ export default function DavidEditorial() {
       if (fadeST) fadeST.kill();
     };
   }, [entered, lang, openCard]);
+
+  /* ───────── SCROLL-SPY — track which section is active for the nav dots ───────── */
+  useEffect(() => {
+    if (!entered) return;
+    const ids = NAV_SECTIONS.map((s) => s.id);
+    const onScroll = () => {
+      const mid = window.innerHeight * 0.4;
+      let current = ids[0];
+      for (const id of ids) {
+        const el = document.getElementById(id);
+        if (!el) continue;
+        const top = el.getBoundingClientRect().top;
+        if (top <= mid) current = id;
+      }
+      setActiveSection(current);
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [entered]);
+
+  const goToSection = useCallback((id) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    if (lenisRef.current) {
+      lenisRef.current.scrollTo(el, { offset: -60, duration: 1.2 });
+    } else {
+      el.scrollIntoView({ behavior: "smooth" });
+    }
+  }, []);
 
   /* ───────── CARD PEEK — nudge each card once as it enters view ───────── */
   useEffect(() => {
@@ -2732,12 +2854,14 @@ export default function DavidEditorial() {
       {showLoader && (
         <div className={`ed-loader ${loaderLeaving ? "leaving" : ""}`}>
           <div className="curve" />
+          <div className="loader-name">{t.splashName}</div>
           <div className="greet" key={greetIdx}>
             <span>
               {GREETINGS[greetIdx].slice(0, -1)}
               <span className="dot">{GREETINGS[greetIdx].slice(-1)}</span>
             </span>
           </div>
+          <div className="loader-role">{t.splashRole}</div>
           <div className="sub">{t.splashSub}</div>
           <div className="row">
             {langReady &&
@@ -2810,8 +2934,27 @@ export default function DavidEditorial() {
           </svg>
         </div>
 
+        {/* ═══ SIDE NAV DOTS — jump to sections ═══ */}
+        {entered && (
+          <nav className="ed-navdots" aria-label="Section navigation">
+            {NAV_SECTIONS.map((s) => (
+              <button
+                key={s.id}
+                type="button"
+                className={`ed-navdot ${activeSection === s.id ? "active" : ""}`}
+                onClick={() => goToSection(s.id)}
+                aria-label={s.label[lang] || s.label.EN}
+                aria-current={activeSection === s.id ? "true" : undefined}
+              >
+                <span className="ed-navdot-label">{s.label[lang] || s.label.EN}</span>
+                <span className="ed-navdot-dot" />
+              </button>
+            ))}
+          </nav>
+        )}
+
         {/* ═══ HERO ═══ */}
-        <section className="ed-hero">
+        <section id="top" className="ed-hero">
           <div className="ed-hero-photo" ref={photoRef}>
             <div className={`reveal ${entered ? "open" : ""}`}>
               {HERO_PHOTO_URL ? (
@@ -2924,7 +3067,7 @@ export default function DavidEditorial() {
         </div>
 
         {/* ═══ MANIFESTO ═══ */}
-        <section className="ed-section">
+        <section id="story" className="ed-section">
           <div ref={maniRef}>
             <span className="ed-label">{t.manifestoLabel}</span>
             <p className="ed-manifesto" style={{ marginTop: 36 }}>
@@ -2940,7 +3083,7 @@ export default function DavidEditorial() {
         </section>
 
         {/* ═══ IN PERSON — video + speaking GIF ═══ */}
-        <section className="ed-section ed-rule" style={{ background: "var(--paper-deep)" }}>
+        <section id="video" className="ed-section ed-rule" style={{ background: "var(--paper-deep)" }}>
           <div ref={mediaRef}>
             <span className="ed-label">{t.mediaLabel}</span>
             <h2 className="ed-serif" style={{ fontSize: "clamp(30px, 4.4vw, 56px)", marginTop: 20, lineHeight: 1.1, maxWidth: 760 }}>
@@ -3019,7 +3162,7 @@ export default function DavidEditorial() {
         </div>
 
         {/* ═══ TRAJECTORY — the winding journey ═══ */}
-        <section className="ed-section ed-journey-section">
+        <section id="journey" className="ed-section ed-journey-section">
           <div ref={trajRef}>
             <span className="ed-label">{t.trajLabel}</span>
             <h2 className="ed-serif" style={{ fontSize: "clamp(34px, 5vw, 64px)", marginTop: 20, lineHeight: 1.08 }}>
@@ -3256,7 +3399,7 @@ export default function DavidEditorial() {
         </section>
 
         {/* ═══ PROOF ═══ */}
-        <section className="ed-section ed-rule" style={{ background: "var(--paper-deep)" }}>
+        <section id="recognition" className="ed-section ed-rule" style={{ background: "var(--paper-deep)" }}>
           <div ref={proofRef}>
             <span className="ed-label">{t.proofLabel}</span>
             <div style={{ marginTop: 36, borderTop: "1px solid var(--line)" }}>
@@ -3298,7 +3441,7 @@ export default function DavidEditorial() {
         </section>
 
         {/* ═══ CONTACT ═══ */}
-        <section className="ed-section ed-contact ed-rule">
+        <section id="contact" className="ed-section ed-contact ed-rule">
           <div ref={contactRef}>
             <span className="ed-label">{t.contactLabel}</span>
             <div style={{ marginTop: 30 }}>
